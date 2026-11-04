@@ -3,6 +3,7 @@
 use App\Http\Controllers\AiProviderController;
 use App\Http\Controllers\AssistantController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/equipamentos/{device}/editar', [DeviceController::class, 'edit'])->name('devices.edit');
         Route::put('/equipamentos/{device}', [DeviceController::class, 'update'])->name('devices.update');
         Route::delete('/equipamentos/{device}', [DeviceController::class, 'destroy'])->name('devices.destroy');
+    });
+
+    // Comandos: executa as ações da Biblioteca no equipamento (técnico e administrador)
+    Route::middleware('role:admin,tecnico')->group(function () {
+        Route::get('/comandos', [CommandController::class, 'index'])->name('commands.index');
+        Route::get('/comandos/{device}', [CommandController::class, 'show'])->name('commands.show');
+        Route::post('/comandos/{device}/executar', [CommandController::class, 'run'])->middleware('throttle:60,1')->name('commands.run');
     });
 
     // Assistente de IA (chat)
