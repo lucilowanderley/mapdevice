@@ -58,7 +58,8 @@
         <nav>
             <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Visão geral</a>
             <a href="{{ route('devices.index') }}" class="{{ request()->routeIs('devices.*') ? 'active' : '' }}">Equipamentos</a>
-            <a href="{{ route('commands.index') }}" class="{{ request()->routeIs('commands.*') ? 'active' : '' }}">Comandos</a>
+            <a href="{{ route('commands.index') }}" class="{{ request()->routeIs('commands.*') || request()->routeIs('discovery.*') ? 'active' : '' }}">Comandos</a>
+            <a href="{{ route('library.index') }}" class="{{ request()->routeIs('library.*') ? 'active' : '' }}">Biblioteca</a>
             <a href="{{ route('assistant.index') }}" class="{{ request()->routeIs('assistant.*') ? 'active' : '' }}">Assistente</a>
             @if($u->isAdmin())
                 <a href="{{ route('ai-providers.index') }}" class="{{ request()->routeIs('ai-providers.*') ? 'active' : '' }}">Provedores</a>

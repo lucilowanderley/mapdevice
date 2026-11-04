@@ -40,6 +40,11 @@ class Device extends Model
         return $this->hasMany(AiConversation::class);
     }
 
+    public function discoveries(): HasMany
+    {
+        return $this->hasMany(DeviceDiscovery::class);
+    }
+
     public function moduleLabel(): string
     {
         return self::MODULES[$this->module] ?? ($this->module ?: '—');
