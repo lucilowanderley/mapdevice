@@ -134,6 +134,18 @@ class Assistant
             'Usuário' => $device->username,
             'Observações' => $device->notes,
         ]);
+        $discovery = $device->discoveries()->latest()->first();
+        if ($discovery) {
+            $lines[] = "\n### Última descoberta (sonda só-leitura)";
+            if ($discovery->manufacturer) {
+                $lines[] = "- Palpite: {$discovery->manufacturer} / {$discovery->os} (confiança {$discovery->confidence}%)";
+            }
+            $lines[] = '- Portas abertas: ' . (implode(', ', $discovery->openPorts()) ?: 'nenhuma');
+            foreach ($discovery->clues ?? [] as $key => $value) {
+                $lines[] = "- {$key}: {$value}";
+            }
+        }
+
         $profile = $this->library?->profileFor($device, (string) $device->module);
         if ($profile) {
             $lines[] = "\n### Perfil da Biblioteca que atende a este equipamento";

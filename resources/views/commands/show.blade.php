@@ -11,7 +11,10 @@
             {{ $device->host }} <span class="hint">({{ $device->accessLabel() }}{{ $device->port ? ':'.$device->port : '' }})</span>
         </p>
     </div>
-    <a href="{{ route('commands.index') }}" class="btn secondary small">Voltar</a>
+    <div style="white-space:nowrap;">
+        <a href="{{ route('discovery.show', $device) }}" class="btn secondary small">Descoberta</a>
+        <a href="{{ route('commands.index') }}" class="btn secondary small">Voltar</a>
+    </div>
 </div>
 
 @isset($result)
