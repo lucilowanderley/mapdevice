@@ -2,9 +2,11 @@
 
 namespace App\Support\Ai;
 
+use App\CommandLibrary\CommandLibrary;
 use App\Models\AiConversation;
 use App\Models\AiMessage;
 use App\Models\AiProvider;
+use App\Models\CommandProfile;
 use App\Models\Device;
 use Illuminate\Support\Str;
 
@@ -20,14 +22,14 @@ class Assistant
         'fabricante' => ['needs' => 'device', 'label' => 'Identificar fabricante/SO',
             'prompt' => 'A partir das pistas disponíveis (fabricante, modelo, firmware, banners, respostas), identifique o fabricante e o sistema operacional embarcado deste equipamento e como confirmar essa identificação.'],
         'perfil' => ['needs' => 'device', 'label' => 'Gerar perfil da Biblioteca',
-            'prompt' => 'Com base no que foi coletado e testado neste equipamento, redija um rascunho do perfil da Biblioteca de comandos no formato JSON "fibercontrol-commands" versão 1 (profile + actions), usando apenas comandos confirmados. Deixe entre colchetes o que faltar.'],
+            'prompt' => 'Com base no que foi coletado e testado neste equipamento, redija um rascunho do perfil da Biblioteca de comandos no formato JSON "mapdevice-commands" versão 1 (profile + actions), usando apenas comandos confirmados. Deixe entre colchetes o que faltar.'],
         'sondagem' => ['needs' => 'device', 'label' => 'Gerar Sondagem',
             'prompt' => 'Monte o perfil de partida da Sondagem (tipo de login, páginas a baixar e campos) para mapear a interface web deste modelo, apenas leitura.'],
         'explicar' => ['needs' => null, 'label' => 'Explicar ao cliente',
             'prompt' => "Escreva uma mensagem curta e simples para o cliente explicando a situação do equipamento dele e o que será feito:\n\n(descreva a situação)"],
     ];
 
-    public function __construct(private LlmClient $client) {}
+    public function __construct(private LlmClient $client, private ?CommandLibrary $library = null) {}
 
     public static function actionsFor(?AiConversation $conversation): array
     {
@@ -132,7 +134,19 @@ class Assistant
             'Usuário' => $device->username,
             'Observações' => $device->notes,
         ]);
+        $profile = $this->library?->profileFor($device, (string) $device->module);
+        if ($profile) {
+            $lines[] = "\n### Perfil da Biblioteca que atende a este equipamento";
+            $lines[] = "- Perfil: {$profile->name} ({$profile->protocolLabel()})";
+            $lines[] = '- Ações disponíveis (execute pela tela Comandos, com confirmação do técnico para as de escrita):';
+            foreach ($profile->actions as $action) {
+                $kind = $action->isWrite() ? 'ESCRITA' : 'consulta';
+                $lines[] = "  - `{$action->key}` — {$action->name} [{$kind}]";
+            }
+        }
+
         $lines[] = "\n> As credenciais do equipamento não são enviadas ao provedor de IA; a senha fica protegida no sistema.";
+        $lines[] = '> Você não executa comandos diretamente: sugere a ação da Biblioteca; quem roda no equipamento é o técnico, pela tela Comandos, e o sistema confere o resultado (lê de volta).';
 
         return implode("\n", $lines);
     }

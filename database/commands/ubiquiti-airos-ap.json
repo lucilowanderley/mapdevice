@@ -1,0 +1,32 @@
+{
+    "format": "mapdevice-commands",
+    "format_version": 1,
+    "profile": {
+        "slug": "ubiquiti-airos-ap",
+        "name": "Ubiquiti airOS — status (HTTP)",
+        "module": "ap",
+        "device_type": "access_point",
+        "manufacturer": "Ubiquiti",
+        "models": ["*"],
+        "firmware": ["*"],
+        "protocol": "rest",
+        "access_methods": ["http", "https"],
+        "version": "1.0.0",
+        "description": "Consulta de status pela interface web do airOS. O login é feito em /login.cgi com o usuário e a senha do equipamento (session.setup) e os cookies são reaproveitados nas consultas.",
+        "session": {
+            "setup": [
+                {"method": "POST", "path": "/login.cgi", "form": {"username": "{username}", "password": "{password}"}}
+            ]
+        }
+    },
+    "actions": [
+        {
+            "key": "status",
+            "name": "Status do rádio (JSON)",
+            "kind": "consulta",
+            "steps": [
+                {"method": "GET", "path": "/status.cgi"}
+            ]
+        }
+    ]
+}

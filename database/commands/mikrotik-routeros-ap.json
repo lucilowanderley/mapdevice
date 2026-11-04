@@ -1,0 +1,64 @@
+{
+    "format": "mapdevice-commands",
+    "format_version": 1,
+    "profile": {
+        "slug": "mikrotik-routeros-ap",
+        "name": "MikroTik RouterOS — Wi-Fi (wireless clássico)",
+        "module": "ap",
+        "device_type": "access_point",
+        "manufacturer": "MikroTik",
+        "models": ["*"],
+        "firmware": ["6.*", "7.*", "*"],
+        "protocol": "routeros_api",
+        "access_methods": ["api", "api_ssl"],
+        "version": "1.0.0",
+        "description": "Ações pela API do RouterOS (porta 8728/8729). Para o Wi-Fi do pacote wifiwave2 (RouterOS 7 /interface/wifi) use um perfil próprio; este cobre o wireless clássico (/interface/wireless)."
+    },
+    "actions": [
+        {
+            "key": "sistema.identidade",
+            "name": "Identidade e versão do sistema",
+            "kind": "consulta",
+            "validated": true,
+            "steps": [
+                {"command": "/system/identity/print"},
+                {"command": "/system/resource/print", "args": {"=.proplist": "board-name,version,uptime"}}
+            ]
+        },
+        {
+            "key": "wifi.lista",
+            "name": "Listar interfaces Wi-Fi",
+            "kind": "consulta",
+            "validated": true,
+            "steps": [
+                {"command": "/interface/wireless/print", "args": {"=.proplist": "name,ssid,disabled,band"}}
+            ]
+        },
+        {
+            "key": "wifi.ssid.get",
+            "name": "Ler o SSID de uma interface",
+            "kind": "consulta",
+            "validated": true,
+            "params": [
+                {"name": "iface", "label": "Interface", "required": true, "pattern": "^[A-Za-z0-9_-]{1,32}$", "default": "wlan1"}
+            ],
+            "steps": [
+                {"command": "/interface/wireless/print", "args": {"?name": "{iface}", "=.proplist": "name,ssid"}}
+            ]
+        },
+        {
+            "key": "wifi.ssid.set",
+            "name": "Trocar o SSID de uma interface",
+            "kind": "configuracao",
+            "description": "Altera o SSID e, em seguida, lê o valor de volta para confirmar que a troca pegou.",
+            "params": [
+                {"name": "iface", "label": "Interface", "required": true, "pattern": "^[A-Za-z0-9_-]{1,32}$", "default": "wlan1"},
+                {"name": "ssid", "label": "Novo SSID", "required": true, "pattern": "^[A-Za-z0-9 ._-]{1,32}$"}
+            ],
+            "steps": [
+                {"command": "/interface/wireless/set", "args": {"=numbers": "{iface}", "=ssid": "{ssid}"}}
+            ],
+            "verify": {"action": "wifi.ssid.get", "contains": "{ssid}"}
+        }
+    ]
+}
