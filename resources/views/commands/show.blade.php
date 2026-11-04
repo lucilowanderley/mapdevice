@@ -12,13 +12,13 @@
         </p>
     </div>
     <div style="white-space:nowrap;">
-        <a href="{{ route('discovery.show', $device) }}" class="btn secondary small">Descoberta</a>
-        <a href="{{ route('commands.index') }}" class="btn secondary small">Voltar</a>
+        <a href="{{ route('discovery.show', $device) }}" class="btn btn-sm">Descoberta</a>
+        <a href="{{ route('commands.index') }}" class="btn btn-sm">Voltar</a>
     </div>
 </div>
 
 @isset($result)
-    <div class="panel" style="border-left:4px solid {{ $result->success ? '#16a34a' : '#dc2626' }};">
+    <div class="panel" style="border-left:4px solid {{ $result->success ? 'var(--green)' : 'var(--red)' }};">
         <h2 style="margin-top:0;">Resultado — {{ $ranAction->name }}</h2>
         @if($result->success)
             @if($ranAction->isWrite())
@@ -55,7 +55,7 @@
         @if($profile->description)<p class="hint">{{ $profile->description }}</p>@endif
 
         @foreach($profile->actions as $action)
-            <div class="action" style="border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-top:14px;">
+            <div class="action" style="border:1px solid var(--border-soft);border-radius:8px;padding:14px;margin-top:14px;">
                 <div class="row" style="justify-content:space-between;">
                     <div>
                         <strong>{{ $action->name }}</strong>
@@ -74,8 +74,8 @@
                     <input type="hidden" name="action" value="{{ $action->key }}">
                     @foreach($action->params ?? [] as $p)
                         <div style="margin:8px 0;">
-                            <label style="display:block;font-size:13px;color:#475569;">
-                                {{ $p['label'] ?? $p['name'] }}@if($p['required'] ?? true) <span style="color:#dc2626;">*</span>@endif
+                            <label style="display:block;font-size:13px;">
+                                {{ $p['label'] ?? $p['name'] }}@if($p['required'] ?? true) <span style="color:var(--red);">*</span>@endif
                             </label>
                             <input type="{{ ($p['secret'] ?? false) ? 'password' : 'text' }}"
                                    name="params[{{ $p['name'] }}]"
@@ -86,13 +86,13 @@
                     @endforeach
 
                     @if($action->isWrite())
-                        <label class="hint" style="display:block;margin:8px 0;color:#7f1d1d;">
+                        <label class="hint" style="display:block;margin:8px 0;color:var(--red);">
                             <input type="checkbox" name="confirm" value="1" required>
                             Confirmo executar esta <strong>alteração</strong> no equipamento{{ $action->verify['action'] ?? null ? ' (o sistema vai ler o valor de volta para conferir)' : '' }}.
                         </label>
-                        <button class="btn" style="background:#dc2626;">Executar alteração</button>
+                        <button class="btn" style="background:var(--red);border-color:var(--red);color:#fff;font-weight:600;">Executar alteração</button>
                     @else
-                        <button class="btn secondary small">Executar consulta</button>
+                        <button class="btn btn-sm">Executar consulta</button>
                     @endif
                 </form>
             </div>

@@ -12,8 +12,8 @@
         <p class="sub">Sonda só-leitura: identifica fabricante e sistema embarcado sem alterar o equipamento.</p>
     </div>
     <div style="white-space:nowrap;">
-        <a href="{{ route('probe.show', $device) }}" class="btn secondary small">Sondagem</a>
-        <a href="{{ route('commands.show', $device) }}" class="btn secondary small">Comandos</a>
+        <a href="{{ route('probe.show', $device) }}" class="btn btn-sm">Sondagem</a>
+        <a href="{{ route('commands.show', $device) }}" class="btn btn-sm">Comandos</a>
     </div>
 </div>
 
@@ -25,7 +25,7 @@
         </p>
         <form method="post" action="{{ route('discovery.run', $device) }}">
             @csrf
-            <button class="btn">Descobrir agora</button>
+            <button class="btn btn-primary">Descobrir agora</button>
         </form>
     </div>
 </div>
@@ -43,7 +43,7 @@
             @if(auth()->user()->isAdmin())
                 <form method="post" action="{{ route('discovery.apply', [$device, $latest]) }}" style="margin-bottom:12px;">
                     @csrf
-                    <button class="btn secondary small">Aplicar ao cadastro do equipamento</button>
+                    <button class="btn btn-sm">Aplicar ao cadastro do equipamento</button>
                 </form>
             @endif
         @else

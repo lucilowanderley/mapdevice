@@ -13,7 +13,7 @@
     <form method="post" action="{{ route('library.import') }}">
         @csrf
         <textarea name="json" rows="10" style="width:100%;font-family:monospace;font-size:13px;" placeholder='{ "format": "mapdevice-commands", "format_version": 1, "profile": { ... }, "actions": [ ... ] }'>{{ old('json') }}</textarea>
-        <div style="margin-top:10px;"><button class="btn">Importar</button></div>
+        <div style="margin-top:10px;"><button class="btn btn-primary">Importar</button></div>
     </form>
 </div>
 @endif
@@ -38,11 +38,11 @@
                 </td>
                 <td><span class="tag">{{ $p->source }}</span></td>
                 <td style="text-align:right;white-space:nowrap;">
-                    <a href="{{ route('library.export', $p) }}" class="btn secondary small">Exportar</a>
+                    <a href="{{ route('library.export', $p) }}" class="btn btn-sm">Exportar</a>
                     @if(auth()->user()->isAdmin())
                         <form method="post" action="{{ route('library.destroy', $p) }}" style="display:inline;" onsubmit="return confirm('Remover o perfil {{ $p->name }}?');">
                             @csrf @method('DELETE')
-                            <button class="btn secondary small" style="color:#b91c1c;">Remover</button>
+                            <button class="btn btn-sm btn-danger">Remover</button>
                         </form>
                     @endif
                 </td>
