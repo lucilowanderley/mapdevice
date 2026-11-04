@@ -13,7 +13,7 @@
     <div class="row">
         @foreach(\App\Support\Ai\Drivers::ALL as $key => $d)
             @php($p = \App\Support\Ai\Drivers::PRICING[$d['pricing']] ?? ['label' => $d['pricing'], 'color' => ''])
-            <a class="btn secondary small" href="{{ route('ai-providers.create', ['tipo' => $key]) }}" title="{{ $d['pricing_note'] }}">
+            <a class="btn btn-sm" href="{{ route('ai-providers.create', ['tipo' => $key]) }}" title="{{ $d['pricing_note'] }}">
                 {{ $d['label'] }}
                 <span class="tag {{ $d['pricing'] === 'gratis' ? 'ok' : ($d['pricing'] === 'comercial' ? '' : 'brand') }}" style="margin-left:4px;">{{ $p['label'] }}</span>
             </a>
@@ -42,11 +42,11 @@
                     @endif
                 </td>
                 <td style="text-align:right;white-space:nowrap;">
-                    <form method="post" action="{{ route('ai-providers.test', $p) }}" style="display:inline;">@csrf<button class="btn secondary small">Testar</button></form>
+                    <form method="post" action="{{ route('ai-providers.test', $p) }}" style="display:inline;">@csrf<button class="btn btn-sm">Testar</button></form>
                     @unless($p->is_default)
-                        <form method="post" action="{{ route('ai-providers.default', $p) }}" style="display:inline;">@csrf<button class="btn secondary small">Tornar padrão</button></form>
+                        <form method="post" action="{{ route('ai-providers.default', $p) }}" style="display:inline;">@csrf<button class="btn btn-sm">Tornar padrão</button></form>
                     @endunless
-                    <a href="{{ route('ai-providers.edit', $p) }}" class="btn secondary small">Editar</a>
+                    <a href="{{ route('ai-providers.edit', $p) }}" class="btn btn-sm">Editar</a>
                 </td>
             </tr>
         @endforeach

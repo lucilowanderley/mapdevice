@@ -7,14 +7,14 @@
         <p class="sub">Equipamentos da rede que o provedor administra.</p>
     </div>
     @if(auth()->user()->isAdmin())
-        <a href="{{ route('devices.create') }}" class="btn">Novo equipamento</a>
+        <a href="{{ route('devices.create') }}" class="btn btn-primary">Novo equipamento</a>
     @endif
 </div>
 
 <div class="panel">
     <form method="get" class="row" style="margin-bottom:14px;">
         <input type="text" name="q" value="{{ request('q') }}" placeholder="Buscar por nome, fabricante, modelo ou IP" style="max-width:360px;">
-        <button class="btn secondary small">Buscar</button>
+        <button class="btn btn-sm">Buscar</button>
     </form>
 
     @if($devices->isEmpty())
@@ -32,9 +32,9 @@
                 <td><span class="tag">{{ $d->accessLabel() }}</span>@if($d->port) <span class="hint">:{{ $d->port }}</span>@endif</td>
                 <td>@if($d->active)<span class="tag ok">ativo</span>@else<span class="tag err">inativo</span>@endif</td>
                 <td style="text-align:right;white-space:nowrap;">
-                    <a href="{{ route('assistant.index', ['equipamento' => $d->id]) }}" class="btn secondary small">Diagnosticar</a>
+                    <a href="{{ route('assistant.index', ['equipamento' => $d->id]) }}" class="btn btn-sm">Diagnosticar</a>
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('devices.edit', $d) }}" class="btn secondary small">Editar</a>
+                        <a href="{{ route('devices.edit', $d) }}" class="btn btn-sm">Editar</a>
                     @endif
                 </td>
             </tr>

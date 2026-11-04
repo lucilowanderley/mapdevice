@@ -74,12 +74,12 @@
         </div>
 
         <div class="row" style="margin-top:20px;">
-            <button class="btn">{{ $provider->exists ? 'Salvar' : 'Cadastrar' }}</button>
-            <a href="{{ route('ai-providers.index') }}" class="btn secondary">Cancelar</a>
+            <button class="btn btn-primary">{{ $provider->exists ? 'Salvar' : 'Cadastrar' }}</button>
+            <a href="{{ route('ai-providers.index') }}" class="btn">Cancelar</a>
             @if($provider->exists)
                 <form method="post" action="{{ route('ai-providers.destroy', $provider) }}" style="margin-left:auto;" onsubmit="return confirm('Excluir este provedor?')">
                     @csrf @method('DELETE')
-                    <button class="btn danger">Excluir</button>
+                    <button class="btn btn-danger">Excluir</button>
                 </form>
             @endif
         </div>

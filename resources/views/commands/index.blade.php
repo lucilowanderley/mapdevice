@@ -20,7 +20,7 @@
                 <td>{{ $d->manufacturer ?: '—' }} {{ $d->model }}</td>
                 <td>{{ $d->host ?: '—' }}</td>
                 <td><span class="tag">{{ $d->accessLabel() }}</span></td>
-                <td style="text-align:right;"><a href="{{ route('commands.show', $d) }}" class="btn secondary small">Abrir</a></td>
+                <td style="text-align:right;"><a href="{{ route('commands.show', $d) }}" class="btn btn-sm">Abrir</a></td>
             </tr>
         @endforeach
         </tbody>
