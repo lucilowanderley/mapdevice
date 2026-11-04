@@ -1,0 +1,39 @@
+{
+    "format": "mapdevice-commands",
+    "format_version": 1,
+    "profile": {
+        "slug": "intelbras-wifiber-cpe",
+        "name": "Intelbras WiFiber — ONT (HTTP)",
+        "module": "cpe",
+        "device_type": "ont",
+        "manufacturer": "Intelbras",
+        "models": ["121 AC", "121 W-GF", "*"],
+        "firmware": ["*"],
+        "protocol": "rest",
+        "access_methods": ["http", "https"],
+        "version": "0.1.0",
+        "description": "Consultas de partida na interface web da ONT Intelbras WiFiber (base boa/Realtek). Rascunho: confira os caminhos no seu modelo. O login costuma ser por formulário em /boaform/admin/formLogin.",
+        "session": {
+            "setup": [
+                {"method": "POST", "path": "/boaform/admin/formLogin", "form": {"username": "{username}", "psd": "{password}"}}
+            ]
+        }
+    },
+    "actions": [
+        {
+            "key": "status.inicial",
+            "name": "Página inicial de status",
+            "kind": "consulta",
+            "validated": false,
+            "steps": [{"method": "GET", "path": "/status.asp"}]
+        },
+        {
+            "key": "status.optico",
+            "name": "Status óptico (potência)",
+            "kind": "consulta",
+            "validated": false,
+            "notes": "O caminho varia por versão de firmware. Use a Sondagem para mapear as páginas reais do seu modelo.",
+            "steps": [{"method": "GET", "path": "/pon_status.asp"}]
+        }
+    ]
+}

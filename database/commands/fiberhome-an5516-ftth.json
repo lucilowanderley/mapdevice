@@ -1,0 +1,35 @@
+{
+    "format": "mapdevice-commands",
+    "format_version": 1,
+    "profile": {
+        "slug": "fiberhome-an5516-ftth",
+        "name": "Fiberhome AN5516 — OLT (Telnet)",
+        "module": "ftth",
+        "device_type": "olt",
+        "manufacturer": "Fiberhome",
+        "models": ["AN5516-*", "*"],
+        "firmware": ["*"],
+        "protocol": "cli",
+        "access_methods": ["telnet", "ssh"],
+        "version": "0.1.0",
+        "description": "Consultas de partida na CLI da OLT Fiberhome AN5516. Rascunho: confira os comandos no seu firmware antes de validar.",
+        "session": {"prompt": "[>#]\\s*$"}
+    },
+    "actions": [
+        {
+            "key": "sistema.versao",
+            "name": "Versão do sistema",
+            "kind": "consulta",
+            "validated": false,
+            "steps": [{"send": "show version"}]
+        },
+        {
+            "key": "onu.sem_autorizar",
+            "name": "ONUs aguardando autorização",
+            "kind": "consulta",
+            "validated": false,
+            "notes": "O comando varia por firmware/placa. Confira no equipamento (ex.: show authorization slot ...).",
+            "steps": [{"send": "show authorization all"}]
+        }
+    ]
+}

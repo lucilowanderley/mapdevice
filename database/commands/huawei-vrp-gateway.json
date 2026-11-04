@@ -1,0 +1,34 @@
+{
+    "format": "mapdevice-commands",
+    "format_version": 1,
+    "profile": {
+        "slug": "huawei-vrp-gateway",
+        "name": "Huawei VRP — gateway/switch (SSH)",
+        "module": "gateway",
+        "device_type": "router",
+        "manufacturer": "Huawei",
+        "models": ["*"],
+        "firmware": ["*"],
+        "protocol": "cli",
+        "access_methods": ["ssh", "telnet"],
+        "version": "0.1.0",
+        "description": "Consultas de partida na CLI VRP da Huawei. Rascunho: confira os comandos no seu equipamento antes de validar.",
+        "session": {"prompt": "[>\\]]\\s*$"}
+    },
+    "actions": [
+        {
+            "key": "sistema.versao",
+            "name": "Versão do sistema",
+            "kind": "consulta",
+            "validated": false,
+            "steps": [{"send": "display version"}]
+        },
+        {
+            "key": "interfaces.breve",
+            "name": "Resumo das interfaces",
+            "kind": "consulta",
+            "validated": false,
+            "steps": [{"send": "display interface brief"}]
+        }
+    ]
+}

@@ -11,7 +11,10 @@
         <h1>Descoberta — {{ $device->name }}</h1>
         <p class="sub">Sonda só-leitura: identifica fabricante e sistema embarcado sem alterar o equipamento.</p>
     </div>
-    <a href="{{ route('commands.show', $device) }}" class="btn secondary small">Comandos</a>
+    <div style="white-space:nowrap;">
+        <a href="{{ route('probe.show', $device) }}" class="btn secondary small">Sondagem</a>
+        <a href="{{ route('commands.show', $device) }}" class="btn secondary small">Comandos</a>
+    </div>
 </div>
 
 <div class="panel">

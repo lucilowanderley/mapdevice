@@ -8,6 +8,7 @@ use App\Http\Controllers\CommandProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\DiscoveryController;
+use App\Http\Controllers\WebProbeController;
 use Illuminate\Support\Facades\Route;
 
 // Autenticação
@@ -45,11 +46,17 @@ Route::middleware('auth')->group(function () {
         // Biblioteca de comandos (consulta dos perfis e exportação)
         Route::get('/biblioteca', [CommandProfileController::class, 'index'])->name('library.index');
         Route::get('/biblioteca/{profile}/exportar', [CommandProfileController::class, 'export'])->name('library.export');
+
+        // Sondagem da interface web (mapeamento só-leitura)
+        Route::get('/equipamentos/{device}/sondagem', [WebProbeController::class, 'show'])->name('probe.show');
+        Route::post('/equipamentos/{device}/sondagem', [WebProbeController::class, 'run'])->middleware('throttle:20,1')->name('probe.run');
+        Route::get('/equipamentos/{device}/sondagem/{probe}/rascunho', [WebProbeController::class, 'draft'])->name('probe.draft');
     });
 
     // Aplicar o resultado da descoberta e importar/remover perfis: só administrador
     Route::middleware('role:admin')->group(function () {
         Route::post('/equipamentos/{device}/descoberta/{discovery}/aplicar', [DiscoveryController::class, 'apply'])->name('discovery.apply');
+        Route::post('/equipamentos/{device}/sondagem/{probe}/importar', [WebProbeController::class, 'import'])->name('probe.import');
         Route::post('/biblioteca/importar', [CommandProfileController::class, 'import'])->name('library.import');
         Route::delete('/biblioteca/{profile}', [CommandProfileController::class, 'destroy'])->name('library.destroy');
     });
