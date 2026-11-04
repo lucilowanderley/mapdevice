@@ -45,6 +45,11 @@ class Device extends Model
         return $this->hasMany(DeviceDiscovery::class);
     }
 
+    public function webProbes(): HasMany
+    {
+        return $this->hasMany(WebProbe::class);
+    }
+
     public function moduleLabel(): string
     {
         return self::MODULES[$this->module] ?? ($this->module ?: '—');

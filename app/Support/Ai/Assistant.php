@@ -23,8 +23,8 @@ class Assistant
             'prompt' => 'A partir das pistas disponíveis (fabricante, modelo, firmware, banners, respostas), identifique o fabricante e o sistema operacional embarcado deste equipamento e como confirmar essa identificação.'],
         'perfil' => ['needs' => 'device', 'label' => 'Gerar perfil da Biblioteca',
             'prompt' => 'Com base no que foi coletado e testado neste equipamento, redija um rascunho do perfil da Biblioteca de comandos no formato JSON "mapdevice-commands" versão 1 (profile + actions), usando apenas comandos confirmados. Deixe entre colchetes o que faltar.'],
-        'sondagem' => ['needs' => 'device', 'label' => 'Gerar Sondagem',
-            'prompt' => 'Monte o perfil de partida da Sondagem (tipo de login, páginas a baixar e campos) para mapear a interface web deste modelo, apenas leitura.'],
+        'sondagem' => ['needs' => 'device', 'label' => 'Planejar Sondagem',
+            'prompt' => 'Indique como sondar a interface web deste modelo (apenas leitura): o tipo de login (nenhum, HTTP Basic ou formulário — com o caminho e os campos de usuário/senha), as páginas que valem a pena baixar e os campos a procurar em cada uma. A sondagem roda na tela Sondagem e gera o rascunho do perfil da Biblioteca.'],
         'explicar' => ['needs' => null, 'label' => 'Explicar ao cliente',
             'prompt' => "Escreva uma mensagem curta e simples para o cliente explicando a situação do equipamento dele e o que será feito:\n\n(descreva a situação)"],
     ];
